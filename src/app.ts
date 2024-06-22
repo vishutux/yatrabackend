@@ -7,6 +7,10 @@ const allowedOrigins = ["http://localhost:4200"];
 
 const options: cors.CorsOptions = {
   origin: allowedOrigins,
+  methods: "*", 
+  allowedHeaders: "*", 
+  credentials: true,
+  preflightContinue: false, 
 };
 
 app.use(cors(options));
