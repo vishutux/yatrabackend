@@ -25,6 +25,28 @@ export const createProfile = async (
   return { ...profile, id: (result as any).insertId };
 };
 
+export const updateProfile = async (
+  connection: any,
+  profile: Profile 
+): Promise<Profile> => {
+  const [result] = await connection.execute(
+    "UPDATE profile SET name =?, code =?, emailDomains =?, contactPerson =?, contactEmail =?, contactNumber =? WHERE id =?",
+    [
+      profile.name,
+      profile.code,
+      profile.emailDomains,
+      profile.contactPerson,
+      profile.contactEmail,
+      profile.contactNumber,
+      profile.id,
+    ]
+  );
+  return {
+   ...profile,
+    id: (result as any).insertId,
+  };
+}
+
 export const getAllProfile = async (
   connection: any,
   page: number = 0,

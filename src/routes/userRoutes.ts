@@ -8,6 +8,7 @@ import {
 import {
   createProfileController,
   getProfileController,
+  updateProfileController
 } from "../controllers/profileController";
 
 import { authenticateToken } from "../authMiddleware";
@@ -19,6 +20,8 @@ router.get("/users/:email", authenticateToken, getUserController);
 
 router.post("/profile", authenticateToken, createProfileController);
 router.get("/allprofile",authenticateToken, getProfileController);
+router.post("/updateprofile", authenticateToken, updateProfileController);
+
 router.post("/login", loginController);
 
 export default router;

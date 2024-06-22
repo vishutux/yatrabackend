@@ -1,15 +1,22 @@
 import { Request, Response } from "express";
-import { createProfile, getProfileAll } from "../services/userService";
+import { createProfile, getProfileAll, updateProfile } from "../services/userService";
 
 export const createProfileController = async (req: Request, res: Response) => {
   try {
     const profile = await createProfile(req.body);
-    res.status(201).json(profile);
+    res.status(201).json({message: "profile created", profile});
   } catch (error) {
     res.status(400).json(error);
   }
 };
-
+export const updateProfileController = async (req: Request, res: Response) => {
+  try {
+    const profile = await updateProfile(req.body);
+    res.status(201).json({meassage: "profile updated", profile});
+  } catch (error) {
+    res.status(400).json(error);
+  }
+}
 export const getProfileController = async (req: Request, res: Response) => {
   try {
     const page = parseInt(req.query.page as string) || 0; // Parse page number from query parameter, default to 0

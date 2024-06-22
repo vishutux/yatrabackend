@@ -5,7 +5,7 @@ import {
   getUserByEmail,
   verifyUser
 } from "../models/userModel";
-import { Profile, createProfile as createProfileModel, getAllProfile } from "../models/profileModels";
+import { Profile, createProfile as createProfileModel, updateProfile as updateProfileModel, getAllProfile } from "../models/profileModels";
 
 const initializeDatabase = async () => {
   try {
@@ -73,6 +73,16 @@ export const createProfile = async (profileData: Profile) => {
     } finally {
         connection.release();
     }
+}
+
+export const updateProfile = async (profileData: Profile) => {
+  const connection = await pool.getConnection();
+  try {
+    const profile = await updateProfileModel(connection, profileData);
+    return profile;
+  } finally {
+    connection.release();
+  }
 }
 
 export const getProfileAll = async (page: any, size: any) => {
