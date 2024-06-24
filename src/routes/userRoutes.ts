@@ -21,7 +21,7 @@ import { authenticateToken } from "../authMiddleware";
 
 const router = Router();
 
-router.post("/users", authenticateToken, createUserController);
+router.post("/users", createUserController);
 router.get("/users/:email", authenticateToken, getUserController);
 
 router.post("/profile", authenticateToken, createProfileController);
