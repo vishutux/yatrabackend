@@ -39,7 +39,7 @@ export const loginController = async (req: Request, res: Response) => {
       payload,
       "bojlncoihnfkdcokvwneockxeqokfnrockowieknc",
       {
-        expiresIn: process.env.JWT_EXPIRATION || "24h",
+        expiresIn: "24h",
       }
     );
     if (isValid) {
