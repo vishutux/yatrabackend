@@ -37,7 +37,7 @@ export const getProfileController = async (req: Request, res: Response) => {
 };
 
 
-export const verifyEmailController = async (req: Request, res: Response) => {
+export const verifyUrlController = async (req: Request, res: Response) => {
   try {
     const checkUrl = await checkUrls(req.body.generatedUrl);
     return res.status(200).json(checkUrl);

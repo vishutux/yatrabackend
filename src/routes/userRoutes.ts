@@ -9,7 +9,7 @@ import {
   createProfileController,
   getProfileController,
   updateProfileController,
-  verifyEmailController,
+  verifyUrlController,
 } from "../controllers/profileController";
 
 import { authenticateToken } from "../authMiddleware";
@@ -23,7 +23,7 @@ router.post("/profile", authenticateToken, createProfileController);
 router.get("/allprofile",authenticateToken, getProfileController);
 router.post("/updateprofile", authenticateToken, updateProfileController);
 
-router.post("/verifyEmail", authenticateToken, verifyEmailController);
+router.post("/verifyEmail", authenticateToken, verifyUrlController);
 
 router.post("/login", loginController);
 
