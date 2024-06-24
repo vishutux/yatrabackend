@@ -16,6 +16,7 @@ export const createOtpController = async (req: Request, res: Response) => {
     }
     res.status(200).json({ message: "otp created" });
   } catch (error) {
+    console.log("error is ", error);
     res.status(400).json(error);
   }
 };
@@ -29,6 +30,7 @@ export const verifyOtpController = async (req: Request, res: Response) => {
         res.status(400).json({ message: "otp not verified", otp });
     }
   } catch (error) {
+    console.log("error is ", error);
     res.status(400).json(error);
   }
 };

@@ -7,6 +7,7 @@ export const createUserController = async (req: Request, res: Response) => {
     const user = await createUser(req.body);
     res.status(201).json(user);
   } catch (error) {
+    console.log("error is ", error);
     res.status(400).json(error);
   }
 };
@@ -19,6 +20,7 @@ export const getUserController = async (req: Request, res: Response) => {
     }
     res.status(200).json(user);
   } catch (error) {
+    console.log("error is ", error);
     res.status(400).json(error);
   }
 };
