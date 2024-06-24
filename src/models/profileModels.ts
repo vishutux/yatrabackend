@@ -76,7 +76,7 @@ export const getAllProfile = async (
 
 export const verifyUrl = async (connection: any, url: string): Promise<Profile[]> => {
   const [rows] = await connection.execute(
-    "SELECT * FROM profile WHERE url =?",
+    "SELECT * FROM profile WHERE generatedUrl =?",
     [url]
   );
   return rows.length > 0 ? rows : null;

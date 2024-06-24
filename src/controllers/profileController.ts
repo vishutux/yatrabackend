@@ -37,10 +37,10 @@ export const getProfileController = async (req: Request, res: Response) => {
 };
 
 
-export const verifyEmail = async (req: Request, res: Response) => {
+export const verifyEmailController = async (req: Request, res: Response) => {
   try {
-    const checkUrl = await checkUrls(req.body.url);
-    return res.status(200).json({ checkUrl });
+    const checkUrl = await checkUrls(req.body.generatedUrl);
+    return res.status(200).json(checkUrl);
   } catch (error) {
     res.status(400).json(error);
   }
