@@ -14,7 +14,7 @@ export const createCorporateUser = async (
 ): Promise<CorporateUser> => {
   try {
     const [result] = await connection.execute(
-      "INSERT INTO corporateUser (email, firstName, lastName, mobileNumber, otp) VALUES (?, ?, ?, ?)",
+      "INSERT INTO corporateUser (email, firstName, lastName, mobileNumber, otp) VALUES (?, ?, ?, ?, ?)",
       [
         profile.email,
         profile.firstName,
