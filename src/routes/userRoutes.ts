@@ -23,7 +23,7 @@ router.post("/profile", authenticateToken, createProfileController);
 router.get("/allprofile",authenticateToken, getProfileController);
 router.post("/updateprofile", authenticateToken, updateProfileController);
 
-router.post("/verifyEmail", authenticateToken, verifyUrlController);
+router.post("/verifyUrl", authenticateToken, verifyUrlController);
 
 router.post("/login", loginController);
 
