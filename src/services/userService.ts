@@ -12,7 +12,10 @@ import {
   getAllProfile,
   verifyUrl,
 } from "../models/profileModels";
-
+import {
+  createCorporateUser as corporateUserModel,
+  CorporateUser,
+} from "../models/corporateUserModels";
 const initializeDatabase = async () => {
   try {
     const connection = await pool.getConnection();
@@ -36,6 +39,16 @@ const initializeDatabase = async () => {
         contactNumber BIGINT -- Changed to BIGINT
       )
     `);
+
+    await connection.query(`
+      CREATE TABLE IF NOT EXISTS corporateUser (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        email VARCHAR(255) NOT NULL,
+        firstName VARCHAR(255) NOT NULL,
+        lastName VARCHAR(255) NOT NULL,
+        otp BIGINT -- Changed to BIGINT
+      )
+    `);
     console.log("Database tables initialized successfully");
     connection.release();
   } catch (error) {
@@ -51,6 +64,16 @@ initializeDatabase()
     console.error("Error initializing database:", error.message);
     process.exit(1); 
   });
+
+export const createCorporateUser = async (userData: CorporateUser) => {
+  const connection = await pool.getConnection();
+  try {
+    const user = await corporateUserModel(connection, userData);
+    return user;
+  } finally {
+    connection.release();
+  }
+};  
 
 export const createUser = async (userData: User) => {
   const connection = await pool.getConnection();

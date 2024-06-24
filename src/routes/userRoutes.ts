@@ -12,6 +12,7 @@ import {
   verifyUrlController,
 } from "../controllers/profileController";
 
+import { createCorporateUserController } from "../controllers/corporateUserController";
 import { authenticateToken } from "../authMiddleware";
 
 const router = Router();
@@ -24,6 +25,8 @@ router.get("/allprofile",authenticateToken, getProfileController);
 router.post("/updateprofile", authenticateToken, updateProfileController);
 
 router.post("/verifyUrl", authenticateToken, verifyUrlController);
+
+router.post("/corporateUser", authenticateToken, createCorporateUserController);
 
 router.post("/login", loginController);
 
