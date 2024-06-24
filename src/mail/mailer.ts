@@ -9,14 +9,11 @@ const logger = winston.createLogger({
   transports: [new winston.transports.Console()],
 });
 
-export const sendMail = async (
-  to: string,
-  subject: string,
-  html: string
-) => {
+export const sendMail = async (to: string, subject: string, html: string) => {
   const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
     port: 587,
+    requireTLS: true,
     secure: process.env.SMTP_PORT == "465",
     auth: {
       user: process.env.SMTP_USERNAME,
@@ -34,7 +31,7 @@ export const sendMail = async (
   logger.info(`Sending mail to - ${to}`);
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
-      console.log(`Error sending mail`, error)
+      console.log(`Error sending mail`, error);
       // logger.error(error);
     } else {
       logger.info("Email sent: " + info.response);
@@ -42,16 +39,16 @@ export const sendMail = async (
   });
 };
 
-const testSendMail = async () => {
-  try {
-    await sendMail(
-      "vaibhavKushwahaq345@gmail.com",
-      "Test Subject",
-      "<h1>Hello World</h1>"
-    );
-  } catch (error) {
-    console.error("Error sending email:", error);
-  }
-};
+// const testSendMail = async () => {
+//   try {
+//     await sendMail(
+//       "vaibhavKushwahaq345@gmail.com",
+//       "Test Subject",
+//       "<h1>Hello World</h1>"
+//     );
+//   } catch (error) {
+//     console.error("Error sending email:", error);
+//   }
+// };
 
-testSendMail();
+// testSendMail();

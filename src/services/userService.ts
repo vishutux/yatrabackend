@@ -24,6 +24,9 @@ import {
   updateOtp as updateOtpModel,
 } from "../models/otpModel";
 
+import { sendMail } from "../mail/mailer";
+
+
 const initializeDatabase = async () => {
   try {
     const connection = await pool.getConnection();
@@ -108,6 +111,19 @@ export const generateOtp = async (body: Otp) => {
     var email = body.email;
     var otp = Math.floor(1000 + Math.random() * 9000);
     const otpsData = { email, otp };
+    let htmlMessage = `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>OTP Verification</title>
+    </head>
+    <body>
+        <p>Your OTP is: <strong>${otp}</strong></p>
+    </body>
+    </html>
+    `;
+    await sendMail(email, "Email Verification Message", htmlMessage);
     const otps = await generateOtpsModel(connection, otpsData);
     return otps;
   } finally {
@@ -121,6 +137,19 @@ export const updateOtp = async (body: Otp) => {
     var email = body.email;
     var otp = Math.floor(1000 + Math.random() * 9000);
     const otpsData = { email, otp };
+    let htmlMessage = `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>OTP Verification</title>
+    </head>
+    <body>
+        <p>Your OTP is: <strong>${otp}</strong></p>
+    </body>
+    </html>
+    `;
+    await sendMail(email, "Email Verification Message", htmlMessage);
     const otps = await updateOtpModel(connection, otpsData);
     return otps;
   } finally {
