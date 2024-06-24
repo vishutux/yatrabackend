@@ -1,5 +1,10 @@
 import { Request, Response } from "express";
-import { createProfile, getProfileAll, updateProfile } from "../services/userService";
+import {
+  createProfile,
+  getProfileAll,
+  updateProfile,
+  checkUrls,
+} from "../services/userService";
 
 export const createProfileController = async (req: Request, res: Response) => {
   try {
@@ -30,3 +35,13 @@ export const getProfileController = async (req: Request, res: Response) => {
     res.status(400).json(error);
   }
 };
+
+
+export const verifyEmail = async (req: Request, res: Response) => {
+  try {
+    const checkUrl = await checkUrls(req.body.url);
+    return res.status(200).json({ checkUrl });
+  } catch (error) {
+    res.status(400).json(error);
+  }
+}

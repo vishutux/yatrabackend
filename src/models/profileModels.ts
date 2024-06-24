@@ -74,6 +74,14 @@ export const getAllProfile = async (
   }
 };
 
+export const verifyUrl = async (connection: any, url: string): Promise<Profile[]> => {
+  const [rows] = await connection.execute(
+    "SELECT * FROM profile WHERE url =?",
+    [url]
+  );
+  return rows.length > 0 ? rows : null;
+};
+
 const sendEmails = async (recipient: string, profile: Profile) => {
   const link = `http://localhost:4200/verifyemail`;
   const message = `Hello ${profile.contactPerson},\n\nYour profile has been created successfully on yatra. Click here to verify the email: ${link}`;

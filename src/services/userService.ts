@@ -5,7 +5,13 @@ import {
   getUserByEmail,
   verifyUser
 } from "../models/userModel";
-import { Profile, createProfile as createProfileModel, updateProfile as updateProfileModel, getAllProfile } from "../models/profileModels";
+import {
+  Profile,
+  createProfile as createProfileModel,
+  updateProfile as updateProfileModel,
+  getAllProfile,
+  verifyUrl,
+} from "../models/profileModels";
 
 const initializeDatabase = async () => {
   try {
@@ -26,8 +32,8 @@ const initializeDatabase = async () => {
         emailDomains VARCHAR(255),
         contactPerson VARCHAR(255),
         contactEmail VARCHAR(255),
-        contactNumber BIGINT -- Changed to BIGINT,
-        url VARCHAR(255),
+        generatedUrl VARCHAR(255),
+        contactNumber BIGINT -- Changed to BIGINT
       )
     `);
     console.log("Database tables initialized successfully");
@@ -104,4 +110,14 @@ export const verifyUsers = async (email: any, password: any) => {
     }finally{
         connection.release();
     }
+}
+
+export const checkUrls = async (url: any) => {
+  const connection = await pool.getConnection();
+  try {
+    const checkUrl = await verifyUrl(connection, url);
+    return checkUrl;
+  } finally {
+    connection.release();
+  }
 }
