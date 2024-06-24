@@ -4,6 +4,7 @@ export interface CorporateUser {
   email: string;
   firstName: string;
   lastName: string;
+  code: string;
   mobileNumber: number,
   otp: number;
 }
@@ -14,11 +15,12 @@ export const createCorporateUser = async (
 ): Promise<CorporateUser> => {
   try {
     const [result] = await connection.execute(
-      "INSERT INTO corporateUser (email, firstName, lastName, mobileNumber, otp) VALUES (?, ?, ?, ?, ?)",
+      "INSERT INTO corporateUser (email, firstName, lastName, code, mobileNumber, otp) VALUES (?, ?, ?, ?, ?, ?)",
       [
         profile.email,
         profile.firstName,
         profile.lastName,
+        profile.code,
         profile.mobileNumber,
         profile.otp,
       ]

@@ -54,6 +54,7 @@ const initializeDatabase = async () => {
         email VARCHAR(255) NOT NULL,
         firstName VARCHAR(255) NOT NULL,
         lastName VARCHAR(255) NOT NULL,
+        code VARCHAR(255),
         mobileNumber BIGINT,
         otp BIGINT
       )
