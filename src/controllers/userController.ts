@@ -35,9 +35,13 @@ export const loginController = async (req: Request, res: Response) => {
     const user = await getUser(email);
 
     const payload = { id: user!.id, email: user!.email };
-    const token = jwt.sign(payload, process.env.JWT_SECRET as string, {
-      expiresIn: process.env.JWT_EXPIRATION || "24h",
-    });
+    const token = jwt.sign(
+      payload,
+      "bojlncoihnfkdcokvwneockxeqokfnrockowieknc",
+      {
+        expiresIn: process.env.JWT_EXPIRATION || "24h",
+      }
+    );
     if (isValid) {
       res.status(200).json({ message: "Login successful", token });
     } else {
