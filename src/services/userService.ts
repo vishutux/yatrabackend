@@ -46,8 +46,8 @@ const initializeDatabase = async () => {
         email VARCHAR(255) NOT NULL,
         firstName VARCHAR(255) NOT NULL,
         lastName VARCHAR(255) NOT NULL,
-        mobileNumber BIGINT -- Changed to BIGINT,
-        otp BIGINT -- Changed to BIGINT
+        mobileNumber BIGINT,
+        otp BIGINT
       )
     `);
     console.log("Database tables initialized successfully");
