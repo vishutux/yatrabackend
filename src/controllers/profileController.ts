@@ -40,7 +40,11 @@ export const getProfileController = async (req: Request, res: Response) => {
 export const verifyUrlController = async (req: Request, res: Response) => {
   try {
     const checkUrl = await checkUrls(req.body.generatedUrl);
-    return res.status(200).json(checkUrl);
+    if(checkUrl === null){
+      return res.status(400).json({message: "generated url not found"})
+    }else{
+      return res.status(200).json(checkUrl);
+    }
   } catch (error) {
     res.status(400).json(error);
   }
