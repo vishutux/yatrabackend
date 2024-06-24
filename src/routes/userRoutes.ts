@@ -26,7 +26,7 @@ router.post("/updateprofile", authenticateToken, updateProfileController);
 
 router.post("/verifyUrl", verifyUrlController);
 
-router.post("/corporateUser", authenticateToken, createCorporateUserController);
+router.post("/corporateUser", createCorporateUserController);
 
 router.post("/login", loginController);
 
