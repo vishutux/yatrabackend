@@ -8,7 +8,7 @@ export interface Profile {
   contactPerson: string;
   contactEmail: string;
   contactNumber: number;
-  url: string;
+  generatedUrl: string;
 }
 export const createProfile = async (
   connection: any,
@@ -16,7 +16,7 @@ export const createProfile = async (
 ): Promise<Profile> => {
   try {
     const [result] = await connection.execute(
-      "INSERT INTO profile (name, code, emailDomains, contactPerson, contactEmail, contactNumber, url) VALUES (?, ?, ?, ?, ?, ?, ?)",
+      "INSERT INTO profile (name, code, emailDomains, contactPerson, contactEmail, contactNumber, generatedUrl) VALUES (?, ?, ?, ?, ?, ?, ?)",
       [
         profile.name,
         profile.code,
@@ -24,7 +24,7 @@ export const createProfile = async (
         profile.contactPerson,
         profile.contactEmail,
         profile.contactNumber,
-        profile.url,
+        profile.generatedUrl,
       ]
     );
     const insertedProfile = { ...profile, id: (result as any).insertId };
