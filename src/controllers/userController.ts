@@ -41,7 +41,7 @@ export const loginController = async (req: Request, res: Response) => {
     if (isValid) {
       res.status(200).json({ message: "Login successful", token });
     } else {
-      res.status(401).json({ error: "Invalid email or password" });
+      res.status(400).json({ error: "Invalid email or password" });
     }
   } catch (error) {
     console.error("Error during login:", error);

@@ -23,10 +23,11 @@ const initializeDatabase = async () => {
         id INT AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(255) NOT NULL,
         code VARCHAR(255) NOT NULL,
-        emailDomains VARCHAR(255) NOT NULL,
+        emailDomains VARCHAR(255),
         contactPerson VARCHAR(255),
         contactEmail VARCHAR(255),
-        contactNumber BIGINT -- Changed to BIGINT
+        contactNumber BIGINT -- Changed to BIGINT,
+        url VARCHAR(255),
       )
     `);
     console.log("Database tables initialized successfully");
