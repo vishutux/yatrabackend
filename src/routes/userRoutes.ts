@@ -13,6 +13,10 @@ import {
 } from "../controllers/profileController";
 
 import { createCorporateUserController } from "../controllers/corporateUserController";
+import {
+  createOtpController,
+  verifyOtpController,
+} from "../controllers/otpController"; 
 import { authenticateToken } from "../authMiddleware";
 
 const router = Router();
@@ -28,6 +32,8 @@ router.post("/verifyUrl", verifyUrlController);
 
 router.post("/corporateUser", createCorporateUserController);
 
+router.post("/otp", createOtpController);
+router.post("/verifyotp", verifyOtpController);
 router.post("/login", loginController);
 
 export default router;

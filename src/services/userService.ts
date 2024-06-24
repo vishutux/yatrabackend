@@ -3,7 +3,7 @@ import {
   User,
   createUser as createUserModel,
   getUserByEmail,
-  verifyUser
+  verifyUser,
 } from "../models/userModel";
 import {
   Profile,
@@ -16,6 +16,14 @@ import {
   createCorporateUser as corporateUserModel,
   CorporateUser,
 } from "../models/corporateUserModels";
+
+import {
+  generateOtps as generateOtpsModel,
+  Otp,
+  getGeneratedOtp as getGeneratedOtpModel,
+  updateOtp as updateOtpModel,
+} from "../models/otpModel";
+
 const initializeDatabase = async () => {
   try {
     const connection = await pool.getConnection();
@@ -50,6 +58,13 @@ const initializeDatabase = async () => {
         otp BIGINT
       )
     `);
+    await connection.query(`
+      CREATE TABLE IF NOT EXISTS otp (
+        email VARCHAR(255) PRIMARY KEY,
+        otp BIGINT
+        )
+      `);
+
     console.log("Database tables initialized successfully");
     connection.release();
   } catch (error) {
@@ -63,7 +78,7 @@ initializeDatabase()
   })
   .catch((error) => {
     console.error("Error initializing database:", error.message);
-    process.exit(1); 
+    process.exit(1);
   });
 
 export const createCorporateUser = async (userData: CorporateUser) => {
@@ -74,7 +89,7 @@ export const createCorporateUser = async (userData: CorporateUser) => {
   } finally {
     connection.release();
   }
-};  
+};
 
 export const createUser = async (userData: User) => {
   const connection = await pool.getConnection();
@@ -85,6 +100,58 @@ export const createUser = async (userData: User) => {
     connection.release();
   }
 };
+
+export const generateOtp = async (body: Otp) => {
+  const connection = await pool.getConnection();
+  try {
+    var email = body.email;
+    var otp = Math.floor(1000 + Math.random() * 9000);
+    const otpsData = { email, otp };
+    const otps = await generateOtpsModel(connection, otpsData);
+    return otps;
+  } finally {
+    connection.release();
+  }
+}
+
+export const updateOtp = async (body: Otp) => {
+  const connection = await pool.getConnection();
+  try {
+    var email = body.email;
+    var otp = Math.floor(1000 + Math.random() * 9000);
+    const otpsData = { email, otp };
+    const otps = await updateOtpModel(connection, otpsData);
+    return otps;
+  } finally {
+    connection.release();
+  }
+}
+export const getGeneratedOtpss = async (body: Otp) => {
+  const connection = await pool.getConnection();
+  try {
+    const otps = await getGeneratedOtpModel(connection, body);
+    console.log("Generated", otps);
+    return otps;
+  } finally {
+    connection.release();
+  }
+};
+
+export const getGeneratedOtps = async (body: Otp) => {
+  const connection = await pool.getConnection();
+  try {
+    
+    const otps = await getGeneratedOtpModel(connection, body);
+    console.log("Generated", otps);
+    if(body.otp === otps.otp){
+      return true;
+    }else{
+      return false;
+    }
+  } finally {
+    connection.release();
+  }
+}
 
 export const getUser = async (email: string) => {
   const connection = await pool.getConnection();
@@ -97,14 +164,14 @@ export const getUser = async (email: string) => {
 };
 
 export const createProfile = async (profileData: Profile) => {
-    const connection = await pool.getConnection();
-    try{
-        const profile = await createProfileModel(connection, profileData);
-        return profile;
-    } finally {
-        connection.release();
-    }
-}
+  const connection = await pool.getConnection();
+  try {
+    const profile = await createProfileModel(connection, profileData);
+    return profile;
+  } finally {
+    connection.release();
+  }
+};
 
 export const updateProfile = async (profileData: Profile) => {
   const connection = await pool.getConnection();
@@ -114,7 +181,7 @@ export const updateProfile = async (profileData: Profile) => {
   } finally {
     connection.release();
   }
-}
+};
 
 export const getProfileAll = async (page: any, size: any) => {
   const connection = await pool.getConnection();
@@ -127,14 +194,14 @@ export const getProfileAll = async (page: any, size: any) => {
 };
 
 export const verifyUsers = async (email: any, password: any) => {
-    const connection = await pool.getConnection();
-    try{
-        const userverify = await verifyUser(connection, email, password);
-        return userverify;
-    }finally{
-        connection.release();
-    }
-}
+  const connection = await pool.getConnection();
+  try {
+    const userverify = await verifyUser(connection, email, password);
+    return userverify;
+  } finally {
+    connection.release();
+  }
+};
 
 export const checkUrls = async (url: any) => {
   const connection = await pool.getConnection();
@@ -144,4 +211,4 @@ export const checkUrls = async (url: any) => {
   } finally {
     connection.release();
   }
-}
+};
