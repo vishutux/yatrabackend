@@ -1,5 +1,6 @@
 import AWS from "aws-sdk";
 const ses = new AWS.SES({ apiVersion: "2010-12-01" });
+import { v4 as uuidv4 } from "uuid";
 export interface Profile {
   id?: number;
   name: string;
@@ -15,9 +16,9 @@ export interface Profile {
 export const createProfile = async (
   connection: any,
   profile: Profile
-): Promise<Profile> => {
+): Promise<any> => {
   try {
-    const randomText = makeid(6);
+    const randomText = uuidv4();
     const genDate = new Date().toISOString();
     const [result] = await connection.execute(
       "INSERT INTO profile (name, code, emailDomains, contactPerson, contactEmail, contactNumber, genTs, status, idText) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
@@ -33,9 +34,9 @@ export const createProfile = async (
         randomText
       ]
     );
-    const insertedProfile = { ...profile, id: (result as any).insertId };
+    // const insertedProfile 
     // sendEmails(profile.contactEmail, insertedProfile);
-    return insertedProfile;
+    return randomText;
   } catch (error) {
     console.error("Error creating profile:", error);
     throw error;
@@ -107,14 +108,3 @@ export const getSyncedProfile = async(connection: any, code: any, startDate: any
    return { profile, corporateUsers };
 }
 
-function makeid(length: any) {
-    let result = '';
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    const charactersLength = characters.length;
-    let counter = 0;
-    while (counter < length) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-      counter += 1;
-    }
-    return result;
-}
