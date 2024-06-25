@@ -11,6 +11,7 @@ import {
   updateProfile as updateProfileModel,
   getAllProfile,
   verifyUrl,
+  getSyncedProfile,
 } from "../models/profileModels";
 import {
   createCorporateUser as corporateUserModel,
@@ -47,7 +48,9 @@ const initializeDatabase = async () => {
         contactPerson VARCHAR(255),
         contactEmail VARCHAR(255),
         generatedUrl VARCHAR(255),
-        contactNumber BIGINT -- Changed to BIGINT
+        status BOOLEAN,
+        genTs VARCHAR(255),
+        contactNumber BIGINT -- Changed to BIGINT,
       )
     `);
 
@@ -59,7 +62,8 @@ const initializeDatabase = async () => {
         lastName VARCHAR(255) NOT NULL,
         code VARCHAR(255),
         mobileNumber BIGINT,
-        otp BIGINT
+        otp BIGINT,
+        status BOOLEAN
       )
     `);
     await connection.query(`
@@ -182,7 +186,22 @@ export const getGeneratedOtps = async (body: Otp) => {
     connection.release();
   }
 }
-
+export const getSyncedProfileAndCorporateUser = async (body: any) => {
+  const connection = await pool.getConnection();
+  try {
+    const { code, startDate, endDate } = body;
+    const startDateTime = new Date(`${startDate}T00:00:00.000Z`).toISOString();
+    console.log(startDateTime);
+    const endDateTime = new Date(`${endDate}T23:59:59.999Z`).toISOString();
+    console.log(endDateTime);
+    const profile = await getSyncedProfile(connection, code, startDateTime, endDateTime);
+    console.log(profile);
+    return profile;
+    
+  } finally {
+    connection.release();
+  }
+}
 export const getUser = async (email: string) => {
   const connection = await pool.getConnection();
   try {

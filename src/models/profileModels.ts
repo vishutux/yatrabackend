@@ -9,14 +9,17 @@ export interface Profile {
   contactEmail: string;
   contactNumber: number;
   generatedUrl: string;
+  status: boolean;
+  genTs: string;
 }
 export const createProfile = async (
   connection: any,
   profile: Profile
 ): Promise<Profile> => {
   try {
+    const genDate = new Date().toISOString();
     const [result] = await connection.execute(
-      "INSERT INTO profile (name, code, emailDomains, contactPerson, contactEmail, contactNumber, generatedUrl) VALUES (?, ?, ?, ?, ?, ?, ?)",
+      "INSERT INTO profile (name, code, emailDomains, contactPerson, contactEmail, contactNumber, generatedUrl, genTs, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
       [
         profile.name,
         profile.code,
@@ -25,6 +28,8 @@ export const createProfile = async (
         profile.contactEmail,
         profile.contactNumber,
         profile.generatedUrl,
+        genDate,
+        false
       ]
     );
     const insertedProfile = { ...profile, id: (result as any).insertId };
@@ -41,7 +46,7 @@ export const updateProfile = async (
   profile: Profile
 ): Promise<Profile> => {
   const [result] = await connection.execute(
-    "UPDATE profile SET name =?, code =?, emailDomains =?, contactPerson =?, contactEmail =?, contactNumber =? WHERE id =?",
+    "UPDATE profile SET name =?, code =?, emailDomains =?, contactPerson =?, contactEmail =?, contactNumber =?, status =? WHERE id =?",
     [
       profile.name,
       profile.code,
@@ -49,6 +54,7 @@ export const updateProfile = async (
       profile.contactPerson,
       profile.contactEmail,
       profile.contactNumber,
+      profile.status,
       profile.id,
     ]
   );
@@ -82,27 +88,20 @@ export const verifyUrl = async (connection: any, url: string): Promise<Profile[]
   return rows.length > 0 ? rows : null;
 };
 
-const sendEmails = async (recipient: string, profile: Profile) => {
-  const link = `http://localhost:4200/verifyemail`;
-  const message = `Hello ${profile.contactPerson},\n\nYour profile has been created successfully on yatra. Click here to verify the email: ${link}`;
-
-  const params = {
-    Destination: {
-      ToAddresses: [recipient],
-    },
-    Message: {
-      Body: {
-        Text: { Data: message },
-      },
-      Subject: { Data: "Profile Created Notification" },
-    },
-    Source: "your-sender-email@example.com",
-  };
-
-  try {
-    await ses.sendEmail(params).promise();
-    console.log(`Email sent successfully to ${recipient}`);
-  } catch (error) {
-    console.error(`Error sending email to ${recipient}:`, error);
-  }
-};
+export const getSyncedProfile = async(connection: any, code: any, startDate: any, endDate: any): Promise<any> => {
+  const query = `
+      SELECT *
+      FROM profile
+      WHERE genTs >= ? AND genTs <= ?
+    `;
+  const query1 = `SELECT * FROM corporateUser WHERE code = ?`;
+   const [rows] = await connection.execute(query, [startDate, endDate]);
+   const [rows1] = await connection.execute(query1, [code]);
+   const profile = (rows as any[]).filter(
+     (row: any) => row.code === code
+   );
+   console.log("filtered result is ", profile);
+   console.log(rows1);
+   const corporateUsers = rows1
+   return { profile, corporateUsers };
+}

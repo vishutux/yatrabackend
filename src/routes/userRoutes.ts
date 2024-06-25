@@ -10,6 +10,7 @@ import {
   getProfileController,
   updateProfileController,
   verifyUrlController,
+  syncProfileAndCorporateUserController,
 } from "../controllers/profileController";
 
 import { createCorporateUserController } from "../controllers/corporateUserController";
@@ -34,6 +35,7 @@ router.post("/corporateUser", createCorporateUserController);
 
 router.post("/otp", createOtpController);
 router.post("/verifyotp", verifyOtpController);
+router.post("/syncdata",authenticateToken, syncProfileAndCorporateUserController)
 router.post("/login", loginController);
 
 export default router;

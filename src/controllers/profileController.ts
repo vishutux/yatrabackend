@@ -4,6 +4,7 @@ import {
   getProfileAll,
   updateProfile,
   checkUrls,
+  getSyncedProfileAndCorporateUser,
 } from "../services/userService";
 
 export const createProfileController = async (req: Request, res: Response) => {
@@ -53,3 +54,17 @@ export const verifyUrlController = async (req: Request, res: Response) => {
     res.status(400).json(error);
   }
 }
+
+export const syncProfileAndCorporateUserController = async (req: Request, res: Response) => {
+  try {
+    
+    const corporateAndProfile = await getSyncedProfileAndCorporateUser(req.body);
+    if (!corporateAndProfile) {
+      return res.status(400).json({ error: "User not found" });
+    }
+    res.status(200).json(corporateAndProfile);
+  } catch (error) {
+    console.log("error is ", error);
+    res.status(400).json(error);
+  }
+} 
