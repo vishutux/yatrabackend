@@ -8,18 +8,19 @@ export interface Profile {
   contactPerson: string;
   contactEmail: string;
   contactNumber: number;
-  generatedUrl: string;
   status: boolean;
   genTs: string;
+  idText: string;
 }
 export const createProfile = async (
   connection: any,
   profile: Profile
 ): Promise<Profile> => {
   try {
+    const randomText = makeid(6);
     const genDate = new Date().toISOString();
     const [result] = await connection.execute(
-      "INSERT INTO profile (name, code, emailDomains, contactPerson, contactEmail, contactNumber, generatedUrl, genTs, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      "INSERT INTO profile (name, code, emailDomains, contactPerson, contactEmail, contactNumber, genTs, status, idText) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
       [
         profile.name,
         profile.code,
@@ -27,9 +28,9 @@ export const createProfile = async (
         profile.contactPerson,
         profile.contactEmail,
         profile.contactNumber,
-        profile.generatedUrl,
         genDate,
-        false
+        false,
+        randomText
       ]
     );
     const insertedProfile = { ...profile, id: (result as any).insertId };
@@ -82,7 +83,7 @@ export const getAllProfile = async (
 
 export const verifyUrl = async (connection: any, url: string): Promise<Profile[]> => {
   const [rows] = await connection.execute(
-    "SELECT * FROM profile WHERE code =?",
+    "SELECT * FROM profile WHERE idText =?",
     [url]
   );
   return rows.length > 0 ? rows : null;
@@ -104,4 +105,16 @@ export const getSyncedProfile = async(connection: any, code: any, startDate: any
    console.log(rows1);
    const corporateUsers = rows1
    return { profile, corporateUsers };
+}
+
+function makeid(length: any) {
+    let result = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const charactersLength = characters.length;
+    let counter = 0;
+    while (counter < length) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      counter += 1;
+    }
+    return result;
 }

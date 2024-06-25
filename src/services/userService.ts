@@ -48,9 +48,9 @@ const initializeDatabase = async () => {
         emailDomains VARCHAR(255),
         contactPerson VARCHAR(255),
         contactEmail VARCHAR(255),
-        generatedUrl VARCHAR(255),
         status BOOLEAN,
         genTs VARCHAR(255),
+        idText VARCHAR(36),
         contactNumber BIGINT -- Changed to BIGINT,
       )
     `);
