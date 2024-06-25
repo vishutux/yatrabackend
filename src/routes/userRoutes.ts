@@ -13,7 +13,7 @@ import {
   syncProfileAndCorporateUserController,
 } from "../controllers/profileController";
 
-import { createCorporateUserController } from "../controllers/corporateUserController";
+import { createCorporateUserController, getCorporateUserByCodes } from "../controllers/corporateUserController";
 import {
   createOtpController,
   verifyOtpController,
@@ -36,6 +36,7 @@ router.post("/corporateUser", createCorporateUserController);
 router.post("/otp", createOtpController);
 router.post("/verifyotp", verifyOtpController);
 router.post("/syncdata",authenticateToken, syncProfileAndCorporateUserController)
+router.post("/getCorporateUser", authenticateToken, getCorporateUserByCodes);
 router.post("/login", loginController);
 
 export default router;

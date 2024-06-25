@@ -16,6 +16,7 @@ import {
 import {
   createCorporateUser as corporateUserModel,
   CorporateUser,
+  getCorporateUserByCodeModel,
 } from "../models/corporateUserModels";
 
 import {
@@ -198,6 +199,17 @@ export const getSyncedProfileAndCorporateUser = async (body: any) => {
     console.log(profile);
     return profile;
     
+  } finally {
+    connection.release();
+  }
+} 
+
+export const getCorporateUserByCode = async (body: any) => {
+  console.log(body);
+  const connection = await pool.getConnection();
+  try {
+    const users = await getCorporateUserByCodeModel(connection, body.code);
+    return users;
   } finally {
     connection.release();
   }

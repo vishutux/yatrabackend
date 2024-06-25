@@ -34,3 +34,19 @@ export const createCorporateUser = async (
     throw error;
   }
 };
+export const getCorporateUserByCodeModel = async (connection: any,  code: any
+): Promise<CorporateUser> => {
+  console.log(code);
+  try {
+    const [result] = await connection.execute(
+      "SELECT * FROM corporateUser WHERE code =?",
+      [
+        code
+      ]
+    );
+    return result; 
+  } catch (error) {
+    console.error("Error creating corporateUser:", error);
+    throw error;
+  }
+}
