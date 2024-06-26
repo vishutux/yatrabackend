@@ -46,7 +46,7 @@ export const createCorporateUser = async (
       console.log("inserted profile ", insertedProfile);
       return insertedProfile;
     } else {
-      const result = { message: "domain not found" };
+      const result = { message: "domain not matched" };
       return result;
     }
   } catch (error) {
