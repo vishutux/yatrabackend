@@ -30,7 +30,7 @@ export const createProfile = async (
         profile.contactEmail,
         profile.contactNumber,
         genDate,
-        false,
+        true,
         randomText
       ]
     );

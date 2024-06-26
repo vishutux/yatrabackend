@@ -26,7 +26,7 @@ export const createCorporateUser = async (
         profile.code,
         profile.mobileNumber,
         profile.otp,
-        false,
+        true,
         genDate,
       ]
     );
