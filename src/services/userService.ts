@@ -64,6 +64,7 @@ const initializeDatabase = async () => {
         code VARCHAR(255),
         mobileNumber BIGINT,
         otp BIGINT,
+        genTs VARCHAR(255),
         status BOOLEAN
       )
     `);

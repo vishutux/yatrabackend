@@ -7,6 +7,7 @@ export interface CorporateUser {
   code: string;
   mobileNumber: number;
   otp: number;
+  genTs: string;
   status: boolean;
 }
 
@@ -15,8 +16,9 @@ export const createCorporateUser = async (
   profile: CorporateUser
 ): Promise<CorporateUser> => {
   try {
+    const genDate = new Date().toISOString();
     const [result] = await connection.execute(
-      "INSERT INTO corporateUser (email, firstName, lastName, code, mobileNumber, otp, status) VALUES (?, ?, ?, ?, ?, ?, ?)",
+      "INSERT INTO corporateUser (email, firstName, lastName, code, mobileNumber, otp, status, genTs) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
       [
         profile.email,
         profile.firstName,
@@ -24,7 +26,8 @@ export const createCorporateUser = async (
         profile.code,
         profile.mobileNumber,
         profile.otp,
-        false
+        false,
+        genDate,
       ]
     );
     const insertedProfile = { ...profile, id: (result as any).insertId };

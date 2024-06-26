@@ -96,15 +96,33 @@ export const getSyncedProfile = async(connection: any, code: any, startDate: any
       FROM profile
       WHERE genTs >= ? AND genTs <= ?
     `;
-  const query1 = `SELECT * FROM corporateUser WHERE code = ?`;
+  const query1 = `SELECT * FROM corporateUser WHERE genTs >= ? AND genTs <= ?`;
    const [rows] = await connection.execute(query, [startDate, endDate]);
-   const [rows1] = await connection.execute(query1, [code]);
+   const [rows1] = await connection.execute(query1, [startDate, endDate]);
+   const corporateuser = (rows1 as any[]).filter((row: any) => row.code ===code);
    const profile = (rows as any[]).filter(
      (row: any) => row.code === code
    );
-   console.log("filtered result is ", profile);
-   console.log(rows1);
-   const corporateUsers = rows1
-   return { profile, corporateUsers };
+   const profileData = profile.map((row: any) => ({
+     name: row.name,
+     emailDomains: row.emailDomains,
+     code: row.code,
+     contactPerson: row.contactPerson,
+     contactEmail: row.contactEmail,
+     contactNumber: row.contactNumber,
+   }));
+
+   const corporateUsersData = corporateuser.map((row: any) => ({
+     email: row.email,
+     firstName: row.firstName,
+     lastName: row.lastName,
+     mobileNumber: row.mobileNumber
+   }));
+   return {
+     status: 1,
+     message: "Successfully loaded employees data",
+     profile: profileData,
+     corporateUsers: corporateUsersData,
+   };
 }
 
