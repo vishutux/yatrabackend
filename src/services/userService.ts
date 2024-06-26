@@ -95,6 +95,8 @@ export const createCorporateUser = async (userData: CorporateUser) => {
   const connection = await pool.getConnection();
   try {
     const user = await corporateUserModel(connection, userData);
+    console.log("createCorporateUser ", user);
+    
     return user;
   } finally {
     connection.release();
@@ -105,6 +107,7 @@ export const createUser = async (userData: User) => {
   const connection = await pool.getConnection();
   try {
     const user = await createUserModel(connection, userData);
+    console.log("createUser ", user);
     return user;
   } finally {
     connection.release();
@@ -131,6 +134,7 @@ export const generateOtp = async (body: Otp) => {
     `;
     await sendMail(email, "Email Verification Message", htmlMessage);
     const otps = await generateOtpsModel(connection, otpsData);
+    console.log("otps  s ", otps);
     return otps;
   } finally {
     connection.release();
@@ -157,6 +161,7 @@ export const updateOtp = async (body: Otp) => {
     `;
     await sendMail(email, "Email Verification Message", htmlMessage);
     const otps = await updateOtpModel(connection, otpsData);
+    console.log("otps  ss ", otps);
     return otps;
   } finally {
     connection.release();
@@ -210,6 +215,7 @@ export const getCorporateUserByCode = async (body: any) => {
   const connection = await pool.getConnection();
   try {
     const users = await getCorporateUserByCodeModel(connection, body.code);
+    console.log(" getCorporateUserByCode", users);
     return users;
   } finally {
     connection.release();
@@ -219,6 +225,7 @@ export const getUser = async (email: string) => {
   const connection = await pool.getConnection();
   try {
     const user = await getUserByEmail(connection, email);
+    console.log(" get user by email ", user);
     return user;
   } finally {
     connection.release();
@@ -229,6 +236,7 @@ export const createProfile = async (profileData: Profile) => {
   const connection = await pool.getConnection();
   try {
     const profile = await createProfileModel(connection, profileData);
+    console.log(" create profile ", profile);
     return profile;
   } finally {
     connection.release();
@@ -239,6 +247,7 @@ export const updateProfile = async (profileData: Profile) => {
   const connection = await pool.getConnection();
   try {
     const profile = await updateProfileModel(connection, profileData);
+    console.log(" update profile ", profile);
     return profile;
   } finally {
     connection.release();
@@ -249,6 +258,7 @@ export const getProfileAll = async (page: any, size: any) => {
   const connection = await pool.getConnection();
   try {
     const profile = await getAllProfile(connection, page, size);
+    console.log(" get all profile ", profile);
     return profile;
   } finally {
     connection.release();
@@ -259,6 +269,7 @@ export const verifyUsers = async (email: any, password: any) => {
   const connection = await pool.getConnection();
   try {
     const userverify = await verifyUser(connection, email, password);
+    console.log(" user verify ", userverify);
     return userverify;
   } finally {
     connection.release();
@@ -269,6 +280,7 @@ export const checkUrls = async (url: any) => {
   const connection = await pool.getConnection();
   try {
     const checkUrl = await verifyUrl(connection, url);
+     console.log(" check urls  verify ", checkUrl);
     return checkUrl;
   } finally {
     connection.release();

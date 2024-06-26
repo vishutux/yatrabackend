@@ -31,6 +31,7 @@ export const createCorporateUser = async (
       ]
     );
     const insertedProfile = { ...profile, id: (result as any).insertId };
+    console.log("inserted profile ", insertedProfile);
     return insertedProfile;
   } catch (error) {
     console.error("Error creating corporateUser:", error);

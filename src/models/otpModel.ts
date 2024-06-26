@@ -12,6 +12,7 @@ export const generateOtps = async (connection: any, profile: Otp): Promise<Otp> 
       ]
     );
     const insertedProfile = { ...profile, result };
+    console.log("inserted profile ", insertedProfile);
     return insertedProfile;
   } catch (error) {
     console.error("Error creating corporateUser:", error);
@@ -30,6 +31,7 @@ export const updateOtp = async (connection: any, profile: Otp): Promise<Otp> => 
       ]
     );
     const insertedProfile = { ...profile, result };
+    console.log("updated profile ", insertedProfile);
     return insertedProfile;
   } catch (error) {
     console.error("Error creating corporateUser:", error);
@@ -46,6 +48,7 @@ export const getGeneratedOtp = async (connection: any, body: Otp): Promise<Otp> 
         body.email,
       ]
     );
+    console.log("get generated otp  ", result[0]);
     return result[0];
   } catch (error) {
     console.error("Error getting otp:", error);
