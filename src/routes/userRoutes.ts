@@ -18,7 +18,7 @@ import {
   createOtpController,
   verifyOtpController,
 } from "../controllers/otpController"; 
-import { authenticateToken } from "../authMiddleware";
+import { authenticateToken, authenticateBasic } from "../authMiddleware";
 
 const router = Router();
 
@@ -35,7 +35,11 @@ router.post("/corporateUser", createCorporateUserController);
 
 router.post("/otp", createOtpController);
 router.post("/verifyotp", verifyOtpController);
-router.post("/syncdata",authenticateToken, syncProfileAndCorporateUserController)
+router.post(
+  "/syncdata",
+  authenticateBasic,
+  syncProfileAndCorporateUserController
+);
 router.post("/getCorporateUser", authenticateToken, getCorporateUserByCodes);
 router.post("/login", loginController);
 
