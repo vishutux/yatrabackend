@@ -1,20 +1,25 @@
 import express from "express";
 import userRoutes from "./routes/userRoutes";
 import cors from "cors";
+import { requestResponseLogger } from "./utils/logger"; // Importing the logging middleware
+
 const app = express();
-
 const allowedOrigins = ["http://localhost:4200"];
-
 const options: cors.CorsOptions = {
   origin: allowedOrigins,
-  methods: "*", 
-  allowedHeaders: "*", 
+  methods: "*",
+  allowedHeaders: "*",
   credentials: true,
-  preflightContinue: false, 
+  preflightContinue: false,
 };
 
-app.use(cors(options));
+// Body parser middleware
 app.use(express.json());
+app.use(express.urlencoded({ extended: true })); 
+
+app.use(requestResponseLogger);
+
+app.use(cors(options));
 app.use("/api", userRoutes);
 
 export default app;
