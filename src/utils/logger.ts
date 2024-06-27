@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from "express";
 import fs from "fs";
 import path from "path";
 
-const logDirectory = path.join("/Users/mac/Desktop", "yatralogger", "logs");
+const logDirectory = path.join("/Users/mac/Desktop", "yatralogger");
 
 if (!fs.existsSync(logDirectory)) {
   fs.mkdirSync(logDirectory);
