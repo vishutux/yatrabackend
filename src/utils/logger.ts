@@ -23,7 +23,7 @@ const requestResponseLogger = (
   res: Response,
   next: NextFunction
 ) => {
-  const requestBody = JSON.stringify(req.body);
+  // const requestBody = JSON.stringify(req.body);
   const oldSend = res.send;
   res.send = function (data: any) {
     const responseBody = typeof data === "string" ? data : JSON.stringify(data);
@@ -32,7 +32,7 @@ const requestResponseLogger = (
       `[${new Date().toISOString()}]`,
       `${req.method} ${req.url}`,
       `Status Code: ${statusCode}`,
-      `Request Body: ${requestBody}`,
+      // `Request Body: ${requestBody}`,
       `Response Body: ${responseBody}`,
     ].join(" | ");
     fs.appendFile(getLogFilePath(), logEntry + "\n", (err) => {
